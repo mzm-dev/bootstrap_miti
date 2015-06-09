@@ -15,10 +15,18 @@
         <!--[if lt IE 9]>
           <script src="js/html5shiv.min.js"></script>
           <script src="js/respond.min.js"></script>
-        <![endif]-->      
+        <![endif]-->
+        <style>
+        
+        div.modal div.modal-backdrop {
+    z-index: 0;
+}
+        </style>
     </head>
     <body>
-        <div class="container">
+          <div class="container">
+        
+      
             <div class="row">
                 <div class="col-md-12">
                     <div class="media" style="margin: 5px 0px;">
@@ -141,9 +149,19 @@
                                 <div class="form-group">
                                     <label for="inputNama" class="col-sm-2 control-label">
                                         Nama</label>
+                                   
                                     <div class="col-sm-10">
                                         <input type="email" class="form-control" 
                                                id="inputNama" placeholder="Nama Penuh">
+                                     
+                                    <a href="#" data-toggle="tooltip" 
+                                                data-placement="top" 
+                                                title="Simpan Maklumat Permohonan"
+                                       >
+                                    <span class="glyphicon glyphicon-ok" 
+                                                  aria-hidden="true">
+                                    
+                                    </span></a>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -174,6 +192,7 @@
                                             <option>Lelaki</option>
                                             <option>Perempuan</option>                          
                                         </select>
+                                        <a href="#" id="bntAdd">Tambah</a>
                                     </div>
                                 </div>
 
@@ -212,12 +231,14 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-success">
-                                            <span class="glyphicon glyphicon-floppy-disk" 
-                                                  aria-hidden="true"></span> Save</button>
+                                        <button type="submit" id="btn-simpan"
+                                                data-toggle="tooltip" 
+                                                data-placement="top" 
+                                                title="Simpan Maklumat Permohonan"
+                                                class="btn btn-success">
+                                            Save</button>
                                         <button type="reset" class="btn btn-danger">
-                                            <span class="glyphicon glyphicon-refresh" 
-                                                  aria-hidden="true"></span> Reset</button>
+                                            Reset</button>
                                     </div>
 
                                 </div>
@@ -228,6 +249,17 @@
                     </div>
                 </div>
             </div><!--/.row --> 
+            
+            <div class="row">
+                <div class="col-md-12">
+                   <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+                </div>
+            </div>
+            
+            
+            
             <footer class="pull-right">
                 &copy; 2015 <cite title="Source Title">Source Title</cite></footer>
         </div><!--/.container -->  
@@ -236,5 +268,71 @@
         <script src="js/jquery-1.10.1.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
+        
+        
+        <script>
+            $(document).ready(function(){//baca sekiranya dokumen file dibuka/dijalankan
+                $('#btn-simpan').tooltip();
+                $('[data-toggle="tooltip"]').tooltip()
+                $('#myModal').on('show.bs.modal', function (event) {
+                    $.ajax({
+                        url: 'http://restmobile-mzm.rhcloud.com/departments.json',
+                        dataType: 'json',
+                        success: function(data) {
+                            var html = [];
+                            html += "<ul>";
+                            $.each(data.departments, function(i, val) {
+                                html += "<li>" + val.Department.name + "</li>";
+                            });
+                            html += "</ul>";
+                            $('#output').append(html);
+                        },
+                        error: function() {
+                            $('#output').append('There was an error loading the data.');
+                        }
+
+                    });
+                });
+            })
+        </script>
+        <!-- Modal -->
+
+        
+        
+        
+        
+        
+        
+        
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+         <div id="output"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>  
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </body>
 </html>
